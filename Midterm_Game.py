@@ -19,16 +19,19 @@ GYRO_YOUT_H = 0x45
 GYRO_ZOUT_H =0x47
 
 
-screenWidth = 500
+screenWidth = 750
 screenHeight = 500
 
 win = pygame.display.set_mode((screenWidth, screenHeight))
 
 pygame.display.set_caption("Midterm Game")
 
+walkRight = [pygame.image.load('R1.png'), pygame.image.load('R2.png'), pygame.image.load('R3.png'), pygame.image.load('R4.png'), pygame.image.load('R5.png'), pygame.image.load('R6.png'), pygame.image.load('R7.png'), pygame.image.load('R8.png'), pygame.image.load('R9.png')]
+walkLeft = [pygame.image.load('L1.png'), pygame.image.load('L2.png'), pygame.image.load('L3.png'), pygame.image.load('L4.png'), pygame.image.load('L5.png'), pygame.image.load('L6.png'), pygame.image.load('L7.png'), pygame.image.load('L8.png'), pygame.image.load('L9.png')]
 
+char = pygame.image.load('standing.png')
 
-x = 50
+x = 375
 y = 440
 width = 40
 height = 40
@@ -124,16 +127,26 @@ while run:
     
     keys = pygame.key.get_pressed()
     
-    if getYRotation (Ax,Ay,Az) < -5:
-        initialPos = 0
-        x -= vel 
+    horizonR = getYRotation (Ax,Ay,Az)
+    if horizonR < -5:
+        if horizonR > -15:
+            x -= vel
+        elif horizonR > -50:
+            x -= 1.5 * vel
+        else:
+            x -= 2 * vel
 #        initialPos -=1
 #        left = True
 #        right = False
         
-    if getYRotation (Ax,Ay,Az) > 0:
-        initialPos= 0
-        x += vel
+    elif horizonR > 1:
+        if horizonR < 10 :
+            x += vel
+        elif horizonR < 30:
+            x += 1.5 * vel
+        else:
+            x += 2 * vel
+       
 #        left = False
 #        right = True
 #        initialPos += 1
@@ -146,9 +159,11 @@ while run:
     win.fill((0,0,0))
     pygame.draw.rect(win,(255,0,0), (x,y,width,height))
     
+    #win.blit( ship, (x,y))
+    
     i+= 1
     
-    print(getYRotation (Ax,Ay,Az))
+    print(Ax)
     pygame.display.update()
     
 pygame.quit()
