@@ -1,5 +1,6 @@
 import pygame
 import smbus
+import math
 from time import sleep
 
 pygame.init()
@@ -34,6 +35,11 @@ height = 40
 vel = 5
 
 
+gY = 0
+i = 0
+left = False
+right = False
+initialPos = 0
 run = True
 
 
@@ -67,7 +73,12 @@ def read_raw_data(addr):
         value = value - 65536
     return value
 
+def dist(a,b):
+    return math.sqrt((a*a)+(b*b))
 
+def getYRotation(x,y,z):
+    rads = math.atan2(x, dist(y,z))
+    return - math.degrees(rads)
 bus = smbus.SMBus(1)
 Device_Address = 0x68 #MPU6050 device address
 
@@ -101,8 +112,11 @@ while run:
     Az= acc_z/16384.0
 
     Gx= gyro_x/131.0
-    Gy= gyro_y/131.0
+    Gy= gyro_y//131.0
     Gz= gyro_z/131.0
+    
+    
+        
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -110,12 +124,19 @@ while run:
     
     keys = pygame.key.get_pressed()
     
-    if keys[pygame.K_LEFT]:
-        x -= vel
-
-    if keys[pygame.K_RIGHT]:
+    if getYRotation (Ax,Ay,Az) < -5:
+        initialPos = 0
+        x -= vel 
+#        initialPos -=1
+#        left = True
+#        right = False
+        
+    if getYRotation (Ax,Ay,Az) > 0:
+        initialPos= 0
         x += vel
-
+#        left = False
+#        right = True
+#        initialPos += 1
     if keys[pygame.K_UP]:
         y -= vel
 
@@ -125,6 +146,9 @@ while run:
     win.fill((0,0,0))
     pygame.draw.rect(win,(255,0,0), (x,y,width,height))
     
+    i+= 1
+    
+    print(getYRotation (Ax,Ay,Az))
     pygame.display.update()
     
 pygame.quit()
