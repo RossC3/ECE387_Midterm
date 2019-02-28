@@ -1,13 +1,21 @@
 import math
 import Setup
-#import Calibration
+
 import statistics
+
+import os
+
+os.system('python Setup.py')
 
 Xrest = 0
 
 Yrest = 0
 
-Zrest = 0
+#Zrest d
+
+def initialize():
+    Setup.initialize()
+    
 
 def dist(a,b):
     return math.sqrt((a*a)+(b*b))
@@ -70,5 +78,6 @@ def calX():
         #print (Calculations.getYRotation())
     return statistics.mean(sample)
 
+initialize()
 calibrate()
 

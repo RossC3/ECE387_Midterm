@@ -1,8 +1,21 @@
 import Calculations
 
-xOrientiation = False
+xOrientation = False
 yOrientation = False
 
+import os
+
+Calculations.initialize()
+
+os.system('python Calculations.py')
+def setOrientation(a):
+    os.system('python Calculations.py')
+    global xOrientation
+    global yOrientation
+    if a == 0:
+        xOrientation = True
+    elif a == 1:
+        yOrientation = True
 
 def moveRight():
     global xOrientation
@@ -12,11 +25,8 @@ def moveRight():
             return True
         
     elif yOrientation:
-        if(Calculations.getXRotation()> 1):
+        if(Calculations.getXRotation()< -1):
             return True
-    else:
-        
-        return True
     
     
     return False
@@ -30,7 +40,7 @@ def moveLeft():
             return True
         
     elif yOrientation:
-        if(Calculations.getXRotation()< -1):
+        if(Calculations.getXRotation() > 1):
             return True
 #    else:
 #        
@@ -40,10 +50,28 @@ def moveLeft():
     return False
     
 def moveUp():
-    
-    pass
+    global xOrientation
+    global yOrientation
+    if xOrientation:
+        if(Calculations.getXRotation() < -1):
+            return True
+        
+    elif yOrientation:
+        if(Calculations.getYRotation() > 1):
+            return True
+
+    return False
     
 def moveDown():
-    pass
+    global xOrientation
+    global yOrientation
+    if xOrientation:
+        if(Calculations.getXRotation() > 1):
+            return True
+        
+    elif yOrientation:
+        if(Calculations.getYRotation()< -1):
+            return True
     
     
+    return False
