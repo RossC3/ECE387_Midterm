@@ -1,11 +1,12 @@
 #MPU6050 Setup
 
+#MPU_Init and read_raw_data functions courtesy of 
+
+#http://www.electronicwings.com/raspberry-pi/mpu6050-accelerometergyroscope-interfacing-with-raspberry-piimport smbus
+
+#System Management
 import smbus
-import math
-from time import sleep
-
-
-#Chip Setup
+#Chip and Register Setup
 PWR_MGMT_1 = 0x6B
 SMPLRT_DIV = 0x19
 CONFIG = 0x1A
@@ -18,9 +19,10 @@ GYRO_XOUT_H = 0x43
 GYRO_YOUT_H = 0x45
 GYRO_ZOUT_H =0x47
 
-bus = smbus.SMBus(1)
+bus = smbus.SMBus(1) #I2C port 1
 Device_Address = 0x68 #MPU6050 device address
 
+#Initializes MPU so it can send data to PI for processing at runtime
 def MPU_Init():
     #write to sample rate register
     bus.write_byte_data(Device_Address, SMPLRT_DIV, 7)
@@ -50,51 +52,45 @@ def read_raw_data(addr):
         value = value - 65536
     return value
 
-#def updateVariables():
-#    
-#    
-#    Ax= Setup.read_raw_data(Setup.ACCEL_XOUT_H)/16384.0
-#    Ay= Setup.read_raw_data(Setup.ACCEL_XOUT_H)/16384.0
-#    Az= Setup.read_raw_data(Setup.ACCEL_XOUT_H)/16384.0
-#
-#    Gx= Setup.read_raw_data(Setup.GYRO_XOUT_H)/131.0
-#    Gy= Setup.read_raw_data(Setup.GYRO_YOUT_H)/131.0
-#    Gz= Setup.read_raw_data(Setup.GYRO_ZOUT_H)/131.0
-#    
-#    print ("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f g" %Ax, "\tAy=%.2f g" %Ay, "\tAz=%.2f g" %Az)     
-#    sleep(1)
 
-def initialize():
-    MPU_Init()
-    
+
+#Initializes MPU at Runtime
+MPU_Init()
+
+
+# returns x angular velocity in degrees per second    
 def getGx():
     
     
     return read_raw_data(GYRO_XOUT_H)/131.0
 
-
+# returns y angular velocity in degrees per second    
 def getGy():
     
     
     return read_raw_data(GYRO_YOUT_H)/131.0
 
-
+# returns z angular velocity in degrees per second
 def getGz():
     
    
     
     return read_raw_data(GYRO_ZOUT_H)/131.0
 
+# returns x acceleration in G-Force (g)
 def getAx():
     
     
     return read_raw_data(ACCEL_XOUT_H)/16384.0
 
+
+# returns y acceleration in G-Force (g)
 def getAy():
     
     
     return read_raw_data(ACCEL_YOUT_H)/16384.0
 
+# returns z acceleration in G-Force (g)
 def getAz():
     
     
