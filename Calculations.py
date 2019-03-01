@@ -55,6 +55,21 @@ def getZAcceleration():
     
     return Setup.getAz()*9.81
 
+# returns x angular velocity in degrees per second
+def getXG():
+
+    return Setup.getGx()
+
+# returns y angular velocity in degrees per second
+def getYG():
+
+    return Setup.getGy()
+
+# returns z angular velocity in degrees per second
+def getZG():
+
+    return Setup.getGz()
+
 # returns resultant force in Newtons (N)
 def resultantForce(m):
 

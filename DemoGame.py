@@ -5,9 +5,9 @@ import math
 import TiltControls
 
 
-TiltControls.setOrientation(1)
+TiltControls.setOrientation(0)
 
-
+TiltControls.setSensitivity(1,1)
 screenWidth = 750
 screenHeight = 500
 

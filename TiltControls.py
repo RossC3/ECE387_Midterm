@@ -100,9 +100,4 @@ def Down():
     
     return False
 
-def getRotation():
 
-    if yOrientation:
-        return Calculations.getYRotation()
-    else:
-        return Calculations.getXRotation()
